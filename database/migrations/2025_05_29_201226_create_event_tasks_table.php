@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('event_tasks', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('name');
             $table->text('description')->nullable();
-            $table->dateTime('task_start_date');
-            $table->dateTime('task_end_date');
+            $table->dateTime('task_start_date')->nullable();
+            $table->dateTime('task_end_date')->nullable();
             $table->foreignUuid('event_id');
             $table->timestamps();
             $table->softDeletes();

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ReviewPhoto extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'event_review_id',
+        'photo_url',
+    ];
 }

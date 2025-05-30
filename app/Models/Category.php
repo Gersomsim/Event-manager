@@ -7,5 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'icon',
+        'color',
+        'slug',
+        'status',
+    ];
+
+    public function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->slug = Str::slug($model->name);
+        });
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

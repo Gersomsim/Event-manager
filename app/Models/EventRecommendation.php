@@ -8,14 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasUuid;
 
-class EventRegistration extends Model
+class EventRecommendation extends Model
 {
     use HasFactory, HasUuid;
 
     protected $fillable = [
         'event_id',
         'profile_id',
-        'status',
     ];
 
     public function event()
@@ -27,4 +26,4 @@ class EventRegistration extends Model
     {
         return $this->belongsTo(Profile::class);
     }
-}
+} 

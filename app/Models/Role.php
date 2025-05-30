@@ -18,6 +18,11 @@ class Role extends Model
         'name',
         'description',
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
     public function users()
     {

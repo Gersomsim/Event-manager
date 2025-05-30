@@ -17,6 +17,10 @@ class ReviewPhoto extends Model
         'photo_url',
     ];
 
+    protected $hidden = [
+        'updated_at',
+    ];
+
     public function eventReview()
     {
         return $this->belongsTo(EventReview::class);

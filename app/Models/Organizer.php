@@ -21,6 +21,12 @@ class Organizer extends Model
         'organizer_type_id',
         'profile_id',
     ];
+    
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
     public function organizerType()
     {

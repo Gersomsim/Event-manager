@@ -26,6 +26,13 @@ class Event extends Model
         'category_id',
         'location_id',
     ];
+    
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     protected $casts = [
         'event_start_date' => 'datetime',
         'event_end_date' => 'datetime',

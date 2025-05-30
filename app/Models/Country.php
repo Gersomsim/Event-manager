@@ -15,6 +15,12 @@ class Country extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     public function cities()
     {
         return $this->hasMany(City::class);

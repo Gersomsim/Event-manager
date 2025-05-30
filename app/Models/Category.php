@@ -23,6 +23,11 @@ class Category extends Model
         'slug',
         'status',
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
 
     public static function boot()

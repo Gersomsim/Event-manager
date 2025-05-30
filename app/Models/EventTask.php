@@ -22,6 +22,11 @@ class EventTask extends Model
         'event_id',
     ];
 
+    protected $hidden = [
+        'updated_at',
+        'deleted_at',
+    ];
+
     protected $casts = [
         'task_start_date' => 'datetime',
         'task_end_date' => 'datetime',

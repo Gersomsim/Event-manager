@@ -20,6 +20,12 @@ class Location extends Model
         'address',
         'city_id',
     ];
+    
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
     public function city()
     {

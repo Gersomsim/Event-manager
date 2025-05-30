@@ -20,6 +20,10 @@ class EventReview extends Model
         'event_id',
         'profile_id',
     ];
+    protected $hidden = [
+        'updated_at',
+        'deleted_at',
+    ];
 
     public function event()
     {

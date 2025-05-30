@@ -17,6 +17,10 @@ class ReviewLike extends Model
         'profile_id',
     ];
 
+    protected $hidden = [
+        'updated_at',
+    ];
+
     public function eventReview()
     {
         return $this->belongsTo(EventReview::class);

@@ -18,6 +18,10 @@ class EventRegistration extends Model
         'status',
     ];
 
+    protected $hidden = [
+        'updated_at',
+    ];
+
     public function event()
     {
         return $this->belongsTo(Event::class);

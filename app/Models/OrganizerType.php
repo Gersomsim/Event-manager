@@ -20,6 +20,12 @@ class OrganizerType extends Model
         'level',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     public function organizers()
     {
         return $this->hasMany(Organizer::class);

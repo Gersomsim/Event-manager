@@ -20,6 +20,10 @@ class ReviewComment extends Model
         'comment',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     public function eventReview()
     {
         return $this->belongsTo(EventReview::class);

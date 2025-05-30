@@ -19,6 +19,12 @@ class City extends Model
         'country_id',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     public function country()
     {
         return $this->belongsTo(Country::class);

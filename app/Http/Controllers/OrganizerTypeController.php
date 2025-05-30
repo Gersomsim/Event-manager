@@ -5,62 +5,41 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrganizerTypeRequest;
 use App\Http\Requests\UpdateOrganizerTypeRequest;
 use App\Models\OrganizerType;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\OrganizerTypeResource;
 
 class OrganizerTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'like' => ['name', 'description']
+        ];
+        return $this->getIndex($request, OrganizerType::class, $filters, 'id', 'desc', OrganizerTypeResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreOrganizerTypeRequest $request)
     {
-        //
+        return $this->createElement(OrganizerType::class, $request->validated(), OrganizerTypeResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(OrganizerType $organizerType)
     {
-        //
+        return $this->response(OrganizerTypeResource::make($organizerType));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OrganizerType $organizerType)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateOrganizerTypeRequest $request, OrganizerType $organizerType)
     {
-        //
+        return $this->updateElement($organizerType, $request->validated(), OrganizerTypeResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(OrganizerType $organizerType)
     {
-        //
+        return $this->deleteElement($organizerType, OrganizerTypeResource::class);
     }
 }

@@ -5,62 +5,41 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\RoleResource;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'like' => ['name', 'description']
+        ];
+        return $this->getIndex($request, Role::class, $filters, 'id', 'desc', RoleResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRoleRequest $request)
     {
-        //
+        return $this->createElement(Role::class, $request->validated(), RoleResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Role $role)
     {
-        //
+        return $this->response(RoleResource::make($role));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        //
+        return $this->updateElement($role, $request->validated(), RoleResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Role $role)
     {
-        //
+        return $this->deleteElement($role, RoleResource::class);
     }
 }

@@ -5,62 +5,42 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRecomendationRequest;
 use App\Http\Requests\UpdateEventRecomendationRequest;
 use App\Models\EventRecomendation;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\EventRecomendationResource;
 
 class EventRecomendationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'query' => ['event_id', 'user_id'],
+            'like' => ['title', 'description']
+        ];
+        return $this->getIndex($request, EventRecomendation::class, $filters, 'id', 'desc', EventRecomendationResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreEventRecomendationRequest $request)
     {
-        //
+        return $this->createElement(EventRecomendation::class, $request->validated(), EventRecomendationResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(EventRecomendation $eventRecomendation)
     {
-        //
+        return $this->response(EventRecomendationResource::make($eventRecomendation));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(EventRecomendation $eventRecomendation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateEventRecomendationRequest $request, EventRecomendation $eventRecomendation)
     {
-        //
+        return $this->updateElement($eventRecomendation, $request->validated(), EventRecomendationResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(EventRecomendation $eventRecomendation)
     {
-        //
+        return $this->deleteElement($eventRecomendation, EventRecomendationResource::class);
     }
 }

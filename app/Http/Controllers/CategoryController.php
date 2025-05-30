@@ -5,62 +5,41 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'query' => ['slug'],
+            'like' => ['name', 'description']
+        ];
+        return $this->getIndex($request, Category::class, $filters, 'id', 'desc', CategoryResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        return $this->createElement(Category::class, $request->validated(), CategoryResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Category $category)
     {
-        //
+        return $this->response(CategoryResource::make($category));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        return $this->updateElement($category, $request->validated(), CategoryResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
-        //
+        return $this->deleteElement($category, CategoryResource::class);
     }
 }

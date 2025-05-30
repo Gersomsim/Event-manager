@@ -5,62 +5,42 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Profile;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\ProfileResource;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'query' => ['user_id'],
+            'like' => ['first_name', 'last_name', 'bio']
+        ];
+        return $this->getIndex($request, Profile::class, $filters, 'id', 'desc', ProfileResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreProfileRequest $request)
     {
-        //
+        return $this->createElement(Profile::class, $request->validated(), ProfileResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Profile $profile)
     {
-        //
+        return $this->response(ProfileResource::make($profile));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Profile $profile)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateProfileRequest $request, Profile $profile)
     {
-        //
+        return $this->updateElement($profile, $request->validated(), ProfileResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Profile $profile)
     {
-        //
+        return $this->deleteElement($profile, ProfileResource::class);
     }
 }

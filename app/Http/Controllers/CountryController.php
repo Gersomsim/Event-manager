@@ -5,62 +5,42 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCountryRequest;
 use App\Http\Requests\UpdateCountryRequest;
 use App\Models\Country;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\CountryResource;
 
 class CountryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'query' => ['code'],
+            'like' => ['name']
+        ];
+        return $this->getIndex($request, Country::class, $filters, 'id', 'desc', CountryResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCountryRequest $request)
     {
-        //
+        return $this->createElement(Country::class, $request->validated(), CountryResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Country $country)
     {
-        //
+        return $this->response(CountryResource::make($country));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Country $country)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCountryRequest $request, Country $country)
     {
-        //
+        return $this->updateElement($country, $request->validated(), CountryResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Country $country)
     {
-        //
+        return $this->deleteElement($country, CountryResource::class);
     }
 }

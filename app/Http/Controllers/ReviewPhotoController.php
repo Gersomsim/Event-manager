@@ -5,62 +5,42 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReviewPhotoRequest;
 use App\Http\Requests\UpdateReviewPhotoRequest;
 use App\Models\ReviewPhoto;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\ReviewPhotoResource;
 
 class ReviewPhotoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'query' => ['review_id'],
+            'like' => ['caption']
+        ];
+        return $this->getIndex($request, ReviewPhoto::class, $filters, 'id', 'desc', ReviewPhotoResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreReviewPhotoRequest $request)
     {
-        //
+        return $this->createElement(ReviewPhoto::class, $request->validated(), ReviewPhotoResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(ReviewPhoto $reviewPhoto)
     {
-        //
+        return $this->response(ReviewPhotoResource::make($reviewPhoto));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ReviewPhoto $reviewPhoto)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateReviewPhotoRequest $request, ReviewPhoto $reviewPhoto)
     {
-        //
+        return $this->updateElement($reviewPhoto, $request->validated(), ReviewPhotoResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ReviewPhoto $reviewPhoto)
     {
-        //
+        return $this->deleteElement($reviewPhoto, ReviewPhotoResource::class);
     }
 }

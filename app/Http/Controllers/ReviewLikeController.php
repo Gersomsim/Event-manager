@@ -5,62 +5,41 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReviewLikeRequest;
 use App\Http\Requests\UpdateReviewLikeRequest;
 use App\Models\ReviewLike;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\ReviewLikeResource;
 
 class ReviewLikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'query' => ['review_id', 'user_id']
+        ];
+        return $this->getIndex($request, ReviewLike::class, $filters, 'id', 'desc', ReviewLikeResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreReviewLikeRequest $request)
     {
-        //
+        return $this->createElement(ReviewLike::class, $request->validated(), ReviewLikeResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(ReviewLike $reviewLike)
     {
-        //
+        return $this->response(ReviewLikeResource::make($reviewLike));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ReviewLike $reviewLike)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateReviewLikeRequest $request, ReviewLike $reviewLike)
     {
-        //
+        return $this->updateElement($reviewLike, $request->validated(), ReviewLikeResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ReviewLike $reviewLike)
     {
-        //
+        return $this->deleteElement($reviewLike, ReviewLikeResource::class);
     }
 }

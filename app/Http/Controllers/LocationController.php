@@ -5,62 +5,41 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLocationRequest;
 use App\Http\Requests\UpdateLocationRequest;
 use App\Models\Location;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\LocationResource;
 
 class LocationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'query' => ['city_id'],
+            'like' => ['name', 'address']
+        ];
+        return $this->getIndex($request, Location::class, $filters, 'id', 'desc', LocationResource::class);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreLocationRequest $request)
     {
-        //
+        return $this->createElement(Location::class, $request->validated(), LocationResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Location $location)
     {
-        //
+        return $this->response(LocationResource::make($location));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Location $location)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateLocationRequest $request, Location $location)
     {
-        //
+        return $this->updateElement($location, $request->validated(), LocationResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Location $location)
     {
-        //
+        return $this->deleteElement($location, LocationResource::class);
     }
 }

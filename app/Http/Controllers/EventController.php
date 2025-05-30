@@ -5,62 +5,42 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Http\Traits\ObjectManipulation;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use Illuminate\Http\Request;
+use App\Http\Resources\EventResource;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use ObjectManipulation, ResponseIndex, SuccessResponse;
+
+    public function index(Request $request)
     {
-        //
+        $filters = [
+            'query' => ['category_id', 'organizer_id', 'location_id'],
+            'like' => ['name', 'description']
+        ];
+        return $this->getIndex($request, Event::class, $filters, 'id', 'desc', EventResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreEventRequest $request)
     {
-        //
+        return $this->createElement(Event::class, $request->validated(), EventResource::class);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Event $event)
     {
-        //
+        return $this->response(EventResource::make($event));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Event $event)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        return $this->updateElement($event, $request->validated(), EventResource::class);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Event $event)
     {
-        //
+        return $this->deleteElement($event, EventResource::class);
     }
 }

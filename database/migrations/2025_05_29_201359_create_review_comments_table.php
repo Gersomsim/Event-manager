@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('review_comments', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('event_review_id');
+            $table->foreignUuid('profile_id');
+            $table->text('comment');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

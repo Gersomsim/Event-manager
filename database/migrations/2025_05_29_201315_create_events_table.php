@@ -12,8 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->dateTime('event_start_date');
+            $table->dateTime('event_end_date');
+            $table->integer('available_places')->default(0);
+            $table->string('status')->default('DRAFT');
+            $table->foreignUuid('location_id');
+            $table->foreignUuid('category_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

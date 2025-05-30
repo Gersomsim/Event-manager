@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('organizers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->string('nickname')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->nullable();
+            $table->foreignUuid('organizer_type_id');
+            $table->foreignUuid('profile_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

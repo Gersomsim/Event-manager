@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('event_reviews', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->integer('rating');
+            $table->text('comment')->nullable();
+            $table->foreignUuid('event_id');
+            $table->foreignUuid('profile_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

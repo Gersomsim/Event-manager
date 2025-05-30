@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('event_registrations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('event_id');
+            $table->foreignUuid('user_id');
+            $table->string('status')->default('PENDING');
             $table->timestamps();
         });
     }

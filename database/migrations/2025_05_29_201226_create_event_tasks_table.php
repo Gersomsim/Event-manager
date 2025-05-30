@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('event_tasks', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->text('description')->nullable();
+            $table->dateTime('task_start_date');
+            $table->dateTime('task_end_date');
+            $table->foreignUuid('event_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -25,10 +25,16 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 
-
+######################### CATEGORIES #########################
 Route::apiResource('categories', CategoryController::class);
+Route::patch('categories/{category}/discontinue', [CategoryController::class, 'discontinue'])->middleware(['auth:sanctum']);
+Route::patch('categories/{category}/reactivate', [CategoryController::class, 'reactivate'])->middleware(['auth:sanctum']);
+
+######################### ADDRESSES #########################
 Route::apiResource('cities', CityController::class);
 Route::apiResource('countries', CountryController::class);
+
+######################### EVENTS #########################
 Route::apiResource('events', EventController::class);
 Route::apiResource('event-recomendations', EventRecomendationController::class);
 Route::apiResource('event-registrations', EventRegistrationController::class);

@@ -11,7 +11,7 @@ class UpdateEventTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateEventTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'task_start_date' => 'nullable|date',
+            'task_end_date' => 'nullable|date',
         ];
     }
 }

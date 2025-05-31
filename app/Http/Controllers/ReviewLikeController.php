@@ -15,31 +15,5 @@ class ReviewLikeController extends Controller
 {
     use ObjectManipulation, ResponseIndex, SuccessResponse;
 
-    public function index(Request $request)
-    {
-        $filters = [
-            'query' => ['review_id', 'user_id']
-        ];
-        return $this->getIndex($request, ReviewLike::class, $filters, 'id', 'desc', ReviewLikeResource::class);
-    }
-
-    public function store(StoreReviewLikeRequest $request)
-    {
-        return $this->createElement(ReviewLike::class, $request->validated(), ReviewLikeResource::class);
-    }
-
-    public function show(ReviewLike $reviewLike)
-    {
-        return $this->response(ReviewLikeResource::make($reviewLike));
-    }
-
-    public function update(UpdateReviewLikeRequest $request, ReviewLike $reviewLike)
-    {
-        return $this->updateElement($reviewLike, $request->validated(), ReviewLikeResource::class);
-    }
-
-    public function destroy(ReviewLike $reviewLike)
-    {
-        return $this->deleteElement($reviewLike, ReviewLikeResource::class);
-    }
+    // TODO: Revisar si se necesita este controlador
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('event_review_id');
             $table->foreignUuid('profile_id');
+            $table->boolean('is_like')->default(true);
             $table->timestamps();
         });
     }

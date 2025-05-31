@@ -39,18 +39,55 @@ Route::apiResource('events', EventController::class)->except(['update', 'destroy
 Route::post('events', [EventController::class, 'store'])->middleware(['auth:sanctum']);
 Route::put('events/{event}', [EventController::class, 'update'])->middleware(['auth:sanctum']);
 Route::delete('events/{event}', [EventController::class, 'destroy'])->middleware(['auth:sanctum']);
-Route::patch('events/{event}/finalize', [EventController::class, 'finalize'])->middleware(['auth:sanctum']);
-
+Route::patch('events/{event}/publish', [EventController::class, 'publish'])->middleware(['auth:sanctum']);
+Route::patch('events/{event}/cancel', [EventController::class, 'cancel'])->middleware(['auth:sanctum']);
+//// Event recommendation
+Route::patch('events/{event}/add-recommendation', [EventController::class, 'storeRecommendation'])->middleware(['auth:sanctum']);
+Route::delete('events/{event}/remove-recommendation', [EventController::class, 'destroyRecommendation'])->middleware(['auth:sanctum']);
+//// Event registration
+Route::patch('events/{event}/register', [EventController::class, 'register'])->middleware(['auth:sanctum']);
+Route::patch('events/{event}/unregister', [EventController::class, 'unregister'])->middleware(['auth:sanctum']);
+Route::get('events/{event}/attendance-list', [EventController::class, 'getAttendanceList'])->middleware(['auth:sanctum']);
+//// Event review
+Route::post('events/{event}/reviews', [EventController::class, 'storeReview'])->middleware(['auth:sanctum']);
+//// Event task
+Route::post('events/{event}/tasks', [EventController::class, 'storeTask'])->middleware(['auth:sanctum']);
 ######################### EVENT RECOMENDATIONS #########################
-Route::apiResource('event-recomendations', EventRecomendationController::class);
-Route::apiResource('event-registrations', EventRegistrationController::class);
-Route::apiResource('event-reviews', EventReviewController::class);
-Route::apiResource('event-tasks', EventTaskController::class);
-Route::apiResource('locations', LocationController::class);
-Route::apiResource('organizers', OrganizerController::class);
-Route::apiResource('organizer-types', OrganizerTypeController::class);
-Route::apiResource('profiles', ProfileController::class);
-Route::apiResource('review-comments', ReviewCommentController::class);
-Route::apiResource('review-likes', ReviewLikeController::class);
-Route::apiResource('review-photos', ReviewPhotoController::class);
-Route::apiResource('roles', RoleController::class);
+Route::apiResource('event-recomendations', EventRecomendationController::class)->only(['index']);
+
+######################### EVENT REVIEWS #########################
+Route::apiResource('event-reviews', EventReviewController::class)->only(['index', 'show', 'update', 'destroy'])->middleware(['auth:sanctum']);
+//// Review like
+Route::post('event-reviews/{eventReview}/like', [EventReviewController::class, 'like'])->middleware(['auth:sanctum']);
+Route::post('event-reviews/{eventReview}/unlike', [EventReviewController::class, 'unlike'])->middleware(['auth:sanctum']);
+Route::post('event-reviews/{eventReview}/dislike', [EventReviewController::class, 'dislike'])->middleware(['auth:sanctum']);
+Route::post('event-reviews/{eventReview}/undislike', [EventReviewController::class, 'undislike'])->middleware(['auth:sanctum']);
+//// Review comment
+Route::post('event-reviews/{eventReview}/add-comment', [EventReviewController::class, 'comment'])->middleware(['auth:sanctum']);
+//// Review photo
+Route::post('event-reviews/{eventReview}/add-photo', [EventReviewController::class, 'photo'])->middleware(['auth:sanctum']);
+######################### EVENT TASKS #########################
+Route::apiResource('event-tasks', EventTaskController::class)->only(['index', 'show', 'update', 'destroy'])->middleware(['auth:sanctum']);
+
+######################### LOCATIONS #########################
+Route::apiResource('locations', LocationController::class)->only(['index', 'show']);
+Route::post('locations', [LocationController::class, 'store'])->middleware(['auth:sanctum']);
+Route::put('locations/{location}', [LocationController::class, 'update'])->middleware(['auth:sanctum']);
+Route::delete('locations/{location}', [LocationController::class, 'destroy'])->middleware(['auth:sanctum']);
+
+######################### ORGANIZERS #########################
+Route::apiResource('organizers', OrganizerController::class)->except(['show'])->middleware(['auth:sanctum']);
+Route::get('organizers/{organizer}', [OrganizerController::class, 'show']);
+Route::apiResource('organizer-types', OrganizerTypeController::class)->middleware(['auth:sanctum']);
+
+######################### PROFILES #########################
+Route::apiResource('profiles', ProfileController::class)->except(['destroy'])->middleware(['auth:sanctum']);
+
+######################### REVIEW COMMENTS #########################
+Route::apiResource('review-comments', ReviewCommentController::class)->only(['index', 'show', 'update', 'destroy'])->middleware(['auth:sanctum']);
+
+######################### REVIEW PHOTOS #########################
+Route::apiResource('review-photos', ReviewPhotoController::class)->only(['index', 'destroy'])->middleware(['auth:sanctum']);
+
+######################### ROLES #########################
+Route::apiResource('roles', RoleController::class)->only(['index', 'show'])->middleware(['auth:sanctum']);

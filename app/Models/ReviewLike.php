@@ -15,6 +15,7 @@ class ReviewLike extends Model
     protected $fillable = [
         'event_review_id',
         'profile_id',
+        'is_like',
     ];
 
     protected $hidden = [

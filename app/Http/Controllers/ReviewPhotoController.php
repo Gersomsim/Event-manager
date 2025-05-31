@@ -18,25 +18,10 @@ class ReviewPhotoController extends Controller
     public function index(Request $request)
     {
         $filters = [
-            'query' => ['review_id'],
-            'like' => ['caption']
+            'query' => ['event_review_id'],
+            'like' => ['photo_url']
         ];
         return $this->getIndex($request, ReviewPhoto::class, $filters, 'id', 'desc', ReviewPhotoResource::class);
-    }
-
-    public function store(StoreReviewPhotoRequest $request)
-    {
-        return $this->createElement(ReviewPhoto::class, $request->validated(), ReviewPhotoResource::class);
-    }
-
-    public function show(ReviewPhoto $reviewPhoto)
-    {
-        return $this->response(ReviewPhotoResource::make($reviewPhoto));
-    }
-
-    public function update(UpdateReviewPhotoRequest $request, ReviewPhoto $reviewPhoto)
-    {
-        return $this->updateElement($reviewPhoto, $request->validated(), ReviewPhotoResource::class);
     }
 
     public function destroy(ReviewPhoto $reviewPhoto)

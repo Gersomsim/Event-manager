@@ -11,7 +11,7 @@ class UpdateEventReviewRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateEventReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'comment' => 'nullable|string',
+            'rating' => 'nullable|integer|min:1|max:5',
         ];
     }
 }

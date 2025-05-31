@@ -11,7 +11,7 @@ class StoreReviewPhotoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreReviewPhotoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'photo' => 'required|string|url|max:255',
         ];
     }
 }

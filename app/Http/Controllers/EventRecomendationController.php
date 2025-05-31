@@ -10,10 +10,13 @@ use App\Http\Traits\ResponseIndex;
 use App\Http\Traits\SuccessResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\EventRecomendationResource;
+use App\Models\Event;
+use App\Http\Traits\GetProfileLogged;
+use App\Http\Resources\EventResource;
 
 class EventRecomendationController extends Controller
 {
-    use ObjectManipulation, ResponseIndex, SuccessResponse;
+    use ObjectManipulation, ResponseIndex, SuccessResponse, GetProfileLogged;
 
     public function index(Request $request)
     {
@@ -22,25 +25,5 @@ class EventRecomendationController extends Controller
             'like' => ['title', 'description']
         ];
         return $this->getIndex($request, EventRecomendation::class, $filters, 'id', 'desc', EventRecomendationResource::class);
-    }
-
-    public function store(StoreEventRecomendationRequest $request)
-    {
-        return $this->createElement(EventRecomendation::class, $request->validated(), EventRecomendationResource::class);
-    }
-
-    public function show(EventRecomendation $eventRecomendation)
-    {
-        return $this->response(EventRecomendationResource::make($eventRecomendation));
-    }
-
-    public function update(UpdateEventRecomendationRequest $request, EventRecomendation $eventRecomendation)
-    {
-        return $this->updateElement($eventRecomendation, $request->validated(), EventRecomendationResource::class);
-    }
-
-    public function destroy(EventRecomendation $eventRecomendation)
-    {
-        return $this->deleteElement($eventRecomendation, EventRecomendationResource::class);
     }
 }

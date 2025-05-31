@@ -31,11 +31,17 @@ Route::patch('categories/{category}/discontinue', [CategoryController::class, 'd
 Route::patch('categories/{category}/reactivate', [CategoryController::class, 'reactivate'])->middleware(['auth:sanctum']);
 
 ######################### ADDRESSES #########################
-Route::apiResource('cities', CityController::class);
-Route::apiResource('countries', CountryController::class);
+Route::apiResource('cities', CityController::class)->except(['update', 'destroy']);
+Route::apiResource('countries', CountryController::class)->except(['update', 'destroy']);
 
 ######################### EVENTS #########################
-Route::apiResource('events', EventController::class);
+Route::apiResource('events', EventController::class)->except(['update', 'destroy', 'store']);
+Route::post('events', [EventController::class, 'store'])->middleware(['auth:sanctum']);
+Route::put('events/{event}', [EventController::class, 'update'])->middleware(['auth:sanctum']);
+Route::delete('events/{event}', [EventController::class, 'destroy'])->middleware(['auth:sanctum']);
+Route::patch('events/{event}/finalize', [EventController::class, 'finalize'])->middleware(['auth:sanctum']);
+
+######################### EVENT RECOMENDATIONS #########################
 Route::apiResource('event-recomendations', EventRecomendationController::class);
 Route::apiResource('event-registrations', EventRegistrationController::class);
 Route::apiResource('event-reviews', EventReviewController::class);

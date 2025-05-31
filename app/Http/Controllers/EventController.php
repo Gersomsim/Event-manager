@@ -4,25 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
-use App\Models\Event;
-use App\Http\Traits\ObjectManipulation;
-use App\Http\Traits\ResponseIndex;
-use App\Http\Traits\SuccessResponse;
-use Illuminate\Http\Request;
-use App\Http\Resources\EventResource;
 use App\Const\EventStatus;
+use App\Models\Event;
 use App\Models\EventRecomendation;
 use App\Models\EventRegistration;
-use App\Http\Resources\EventRegistrationResource;
+use App\Models\EventReview;
+use App\Models\EventTask;
+use App\Http\Traits\ResponseIndex;
+use App\Http\Traits\SuccessResponse;
+use App\Http\Traits\GetProfileLogged;
+use App\Http\Traits\ObjectManipulation;
+use Illuminate\Http\Request;
 use App\Exceptions\BadRequestException;
 use App\Http\Requests\StoreEventReviewRequest;
-use App\Models\EventReview;
-use App\Http\Resources\EventReviewResource;
 use App\Http\Requests\StoreEventTaskRequest;
 use App\Http\Requests\UpdateEventTaskRequest;
+use App\Http\Resources\EventResource;
 use App\Http\Resources\EventTaskResource;
-use App\Models\EventTask;
-use App\Http\Traits\GetProfileLogged;
+use App\Http\Resources\EventReviewResource;
+use App\Http\Resources\EventRegistrationResource;
 
 class EventController extends Controller
 {
@@ -91,7 +91,7 @@ class EventController extends Controller
         return $this->response(EventResource::make($event), 'Event recommended successfully');
     }
 
-    public function destroyRecommendation(Event $event)
+    public function destroyRecommendation(Request $request, Event $event)
     {
         $profile_id = $this->getProfileId($request);
         $event_recomendation = EventRecomendation::where('event_id', $event_id)->where('profile_id', $profile_id)->first();

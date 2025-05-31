@@ -9,11 +9,11 @@ use App\Http\Traits\ObjectManipulation;
 use App\Http\Traits\ResponseIndex;
 use App\Http\Traits\SuccessResponse;
 use Illuminate\Http\Request;
-use App\Http\Resources\EventReviewResource;
 use App\Http\Traits\GetProfileLogged;
 use App\Http\Requests\StoreReviewCommentRequest;
-use App\Http\Resources\ReviewCommentResource;
 use App\Http\Requests\StoreReviewPhotoRequest;
+use App\Http\Resources\EventReviewResource;
+use App\Http\Resources\ReviewCommentResource;
 use App\Http\Resources\ReviewPhotoResource;
 use App\Exceptions\BadRequestException;
 

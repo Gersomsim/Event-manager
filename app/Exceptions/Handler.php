@@ -70,6 +70,9 @@ class Handler extends ExceptionHandler
 		if ($e instanceof NotFoundHttpException) {
 			$response['code'] = Response::HTTP_NOT_FOUND;
 			$response['message'] = 'Element not found';
+			if(str_contains($e->getMessage(), 'The route')) {
+				$response['message'] = 'Route not found';
+			}
 		}
 		if ($e instanceof AccessDeniedHttpException) {
 			$response['code'] = Response::HTTP_FORBIDDEN;
@@ -129,7 +132,11 @@ class Handler extends ExceptionHandler
 					$response['message'] = 'Error de constraint';
 					$response['code'] = Response::HTTP_UNPROCESSABLE_ENTITY;
 					if ($e->errorInfo[1] === 7) {
-						$response['message'] = $e->errorInfo[2];
+						if(str_contains($e->errorInfo[2], 'null value in column')) {
+							$response['message'] = 'Required field is missing or empty';
+						} else {
+							$response['message'] = $e->errorInfo[2];
+						}
 					}
 					break;
 				case '23514':

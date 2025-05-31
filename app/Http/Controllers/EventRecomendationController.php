@@ -21,8 +21,7 @@ class EventRecomendationController extends Controller
     public function index(Request $request)
     {
         $filters = [
-            'query' => ['event_id', 'user_id'],
-            'like' => ['title', 'description']
+            'query' => ['event_id'],
         ];
         return $this->getIndex($request, EventRecomendation::class, $filters, 'id', 'desc', EventRecomendationResource::class);
     }

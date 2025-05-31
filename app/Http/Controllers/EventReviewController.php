@@ -17,15 +17,15 @@ use App\Http\Resources\ReviewCommentResource;
 use App\Http\Resources\ReviewPhotoResource;
 use App\Exceptions\BadRequestException;
 
+
 class EventReviewController extends Controller
 {
-    use ObjectManipulation, ResponseIndex, SuccessResponse, LoggGetProfileLogged;
+    use ObjectManipulation, ResponseIndex, SuccessResponse, GetProfileLogged;
 
     public function index(Request $request)
     {
         $filters = [
-            'query' => ['event_id', 'user_id'],
-            'like' => ['title', 'content']
+            'query' => ['event_id'],
         ];
         return $this->getIndex($request, EventReview::class, $filters, 'id', 'desc', EventReviewResource::class);
     }

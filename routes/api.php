@@ -23,7 +23,7 @@ use App\Http\Controllers\AuthController;
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 
 ######################### CATEGORIES #########################
 Route::apiResource('categories', CategoryController::class);
@@ -49,19 +49,19 @@ Route::patch('events/{event}/register', [EventController::class, 'register'])->m
 Route::patch('events/{event}/unregister', [EventController::class, 'unregister'])->middleware(['auth:sanctum']);
 Route::get('events/{event}/attendance-list', [EventController::class, 'getAttendanceList'])->middleware(['auth:sanctum']);
 //// Event review
-Route::post('events/{event}/reviews', [EventController::class, 'storeReview'])->middleware(['auth:sanctum']);
+Route::post('events/{event}/add-review', [EventController::class, 'storeReview'])->middleware(['auth:sanctum']);
 //// Event task
-Route::post('events/{event}/tasks', [EventController::class, 'storeTask'])->middleware(['auth:sanctum']);
+Route::post('events/{event}/add-task', [EventController::class, 'storeTask'])->middleware(['auth:sanctum']);
 ######################### EVENT RECOMENDATIONS #########################
 Route::apiResource('event-recomendations', EventRecomendationController::class)->only(['index']);
 
 ######################### EVENT REVIEWS #########################
 Route::apiResource('event-reviews', EventReviewController::class)->only(['index', 'show', 'update', 'destroy'])->middleware(['auth:sanctum']);
 //// Review like
-Route::post('event-reviews/{eventReview}/like', [EventReviewController::class, 'like'])->middleware(['auth:sanctum']);
-Route::post('event-reviews/{eventReview}/unlike', [EventReviewController::class, 'unlike'])->middleware(['auth:sanctum']);
-Route::post('event-reviews/{eventReview}/dislike', [EventReviewController::class, 'dislike'])->middleware(['auth:sanctum']);
-Route::post('event-reviews/{eventReview}/undislike', [EventReviewController::class, 'undislike'])->middleware(['auth:sanctum']);
+Route::patch('event-reviews/{eventReview}/like', [EventReviewController::class, 'like'])->middleware(['auth:sanctum']);
+Route::patch('event-reviews/{eventReview}/unlike', [EventReviewController::class, 'unlike'])->middleware(['auth:sanctum']);
+Route::patch('event-reviews/{eventReview}/dislike', [EventReviewController::class, 'dislike'])->middleware(['auth:sanctum']);
+Route::patch('event-reviews/{eventReview}/undislike', [EventReviewController::class, 'undislike'])->middleware(['auth:sanctum']);
 //// Review comment
 Route::post('event-reviews/{eventReview}/add-comment', [EventReviewController::class, 'comment'])->middleware(['auth:sanctum']);
 //// Review photo
@@ -81,7 +81,7 @@ Route::get('organizers/{organizer}', [OrganizerController::class, 'show']);
 Route::apiResource('organizer-types', OrganizerTypeController::class)->middleware(['auth:sanctum']);
 
 ######################### PROFILES #########################
-Route::apiResource('profiles', ProfileController::class)->except(['destroy'])->middleware(['auth:sanctum']);
+Route::apiResource('profiles', ProfileController::class)->except(['store','destroy', 'index'])->middleware(['auth:sanctum']);
 
 ######################### REVIEW COMMENTS #########################
 Route::apiResource('review-comments', ReviewCommentController::class)->only(['index', 'show', 'update', 'destroy'])->middleware(['auth:sanctum']);
